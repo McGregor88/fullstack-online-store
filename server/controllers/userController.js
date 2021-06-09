@@ -1,20 +1,68 @@
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+
+const { User, Basket } = require('../models/models');
 const ApiError = require('../error/ApiError');
 
+const generateJwt = (id, email, role) => {
+    return jwt.sign(
+        { id, email, role }, 
+        process.env.SECRET_KEY,
+        { expiresIn: '24h' }
+    );
+};
+
 class UserController {
-    async registration(req, res) {
+    async registration(req, res, next) {
+        const { email, password, role } = req.body;
 
-    }
-
-    async login(req, res) {
-        
-    }
-
-    async auth(req, res, next) {
-        const { id } = req.query;
-        if (!id) {
-            return next(ApiError.badRequest('Не задан ID'));
+        if (!email || !password) {
+            return next(ApiError.badRequest('Некорректный email или пароль'));
         }
-        res.json(id);
+
+        const candidate = await User.findOne({
+            where: { email }
+        });
+
+        if (candidate) {
+            return next(ApiError.badRequest('Пользователь с таким email уже существует'));
+        }
+
+        const hashPassword = await bcrypt.hash(password, 5);
+        const user = await User.create({ email, role, password: hashPassword });
+        const userId = user.id;
+        const basket = await Basket.create({ userId });
+        const token = generateJwt(userId, email, user.role);
+
+        return res.json({ token });
+    }
+
+    async login(req, res, next) {
+        const { email, password } = req.body;
+        const user = await User.findOne({
+            where: { email }
+        });
+
+        if (!user) {
+            return next(ApiError.internalRequest('Пользователь не найден'));
+        }
+
+        const comparePassword = bcrypt.compareSync(password, user.password);
+
+        if (!comparePassword) {
+            return next(ApiError.internalRequest('Указан неверный пароль'));
+        }
+
+        const token = generateJwt(user.id, user.email, user.role);
+
+        return res.json({ token });
+    }
+
+    async auth(req, res) {
+        const { id, email, role } = req.user;
+        const token = generateJwt(id, email, role);
+
+        return res.json({ token });
     }
 }
 
