@@ -21,5 +21,5 @@ First, run the development server:
 
 ```bash
 # development
-npm run dev
+npm start
 ```
