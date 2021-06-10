@@ -14,7 +14,7 @@ class BrandController {
         return res.json(brands);
     }
 
-    async update(req, res) {
+    async update(req, res, next) {
         try {
             const { id } = req.params;
             const { name } = req.body;

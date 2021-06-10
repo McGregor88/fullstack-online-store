@@ -15,7 +15,7 @@ class TypeController {
         return res.json(types);
     }
 
-    async update(req, res) {
+    async update(req, res, next) {
         try {
             const { id } = req.params;
             const { name } = req.body;
