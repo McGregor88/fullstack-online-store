@@ -65,7 +65,7 @@ class DeviceController {
         return res.json(devices);
     }
 
-    async getOne(req, res) {
+    async getById(req, res) {
         const { id } = req.params;
         const device = await Device.findOne({
             where: { id },
