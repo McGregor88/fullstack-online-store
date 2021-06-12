@@ -1,0 +1,7 @@
+.auth-container {
+    height: calc(100vh - 56px);
+}
+
+.auth-card {
+    width: 600px;
+}
