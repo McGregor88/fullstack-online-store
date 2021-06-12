@@ -12,31 +12,31 @@ export const NavBar = observer(() => {
         <Navbar bg="dark" variant="dark">
             <Container>
                 <Navbar.Brand href={SHOP_ROUTE}>Store</Navbar.Brand>
-                {user.isAuth ?
-                    <Nav className="ml-auto">
-                        <Button 
-                            variant="outline-light"
-                        >
-                            Админ панель
-                        </Button>
-                        <Button 
-                            variant="outline-light"
-                            className="ml-2"
-                            onClick={() => user.setIsAuth(false)}
-                        >
-                            Выйти
-                        </Button>
-                    </Nav>
-                    :
-                    <Nav className="ml-auto">
+                <Nav className="ml-auto">
+                    {user.isAuth ?
+                        <>
+                            <Button 
+                                variant="outline-light"
+                            >
+                                Админ панель
+                            </Button>
+                            <Button 
+                                variant="outline-light"
+                                className="ml-2"
+                                onClick={() => user.setIsAuth(false)}
+                            >
+                                Выйти
+                            </Button>
+                        </>
+                        :
                         <Button 
                             variant="outline-light"
                             onClick={() => user.setIsAuth(true)}
                         >
                             Авторизация
                         </Button>
-                    </Nav>
-                }
+                    }
+                </Nav>
             </Container>
       </Navbar>
     );
