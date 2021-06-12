@@ -5,7 +5,7 @@ import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 import { Context } from '..';
 import { SHOP_ROUTE } from '../utils/consts';
 
-export const NavBar = observer(() => {
+const NavBar = observer(() => {
     const { user } = useContext(Context);
 
     return (
@@ -41,3 +41,5 @@ export const NavBar = observer(() => {
       </Navbar>
     );
 });
+
+export default NavBar;
