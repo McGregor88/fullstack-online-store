@@ -5,7 +5,11 @@ class ApiError extends Error {
         this.message = message;
     }
 
-    static forbiddenRequest(message) {
+    static noContent(message) {
+        return new ApiError(204, message);
+    }
+
+    static forbidden(message) {
         return new ApiError(403, message);
     }
 
@@ -13,7 +17,7 @@ class ApiError extends Error {
         return new ApiError(404, message);
     }
 
-    static internalRequest(message) {
+    static internalServerError(message) {
         return new ApiError(500, message);
     }
 }

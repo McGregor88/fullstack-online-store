@@ -44,13 +44,13 @@ class UserController {
         });
 
         if (!user) {
-            return next(ApiError.internalRequest('Пользователь не найден'));
+            return next(ApiError.internalServerError('Пользователь не найден'));
         }
 
         const comparePassword = bcrypt.compareSync(password, user.password);
 
         if (!comparePassword) {
-            return next(ApiError.internalRequest('Указан неверный пароль'));
+            return next(ApiError.internalServerError('Указан неверный пароль'));
         }
 
         const token = generateJwt(user.id, user.email, user.role);

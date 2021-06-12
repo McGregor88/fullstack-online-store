@@ -15,11 +15,11 @@ export default class UserStore {
         this._user = user;
     }
 
-    getAuth() {
+    get isAuth() {
         return this._isAuth;
     }
 
-    getUser() {
+    get user() {
         return this._user;
     }
 }

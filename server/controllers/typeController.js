@@ -3,28 +3,44 @@ const ApiError = require('../error/ApiError');
 
 class TypeController {
 
-    async create(req, res) {
-        const { name } = req.body;
-        const type = await Type.create({ name });
-
-        return res.json(type);
+    async create(req, res, next) {
+        try {
+            const { name } = req.body;
+            const type = await Type.create({ name });
+    
+            return res.json(type);
+        } catch (error) {
+            next(ApiError.badRequest(error.message || 'Непредвиденная ошибка'));
+        }
     }
 
-    async getAll(req, res) {
-        const types = await Type.findAll();
-        return res.json(types);
+    async getAll(req, res, next) {
+        try {
+            const types = await Type.findAll();
+            return res.json(types);
+        } catch (error) {
+            next(ApiError.badRequest(error.message || 'Непредвиденная ошибка'));
+        }
     }
 
     async update(req, res, next) {
         try {
             const { id } = req.params;
             const { name } = req.body;
-            const type = await Type.update(
+            const updatedType = await Type.update(
                 { name },
                 { where: { id } }
             );
 
-            return res.json(type);
+            if (updatedType) {
+                const type = await Type.findOne({ 
+                    where: { id } 
+                });
+
+                return res.json(type);
+            }
+
+            throw new Error('Type not found');
         } catch (error) {
             next(ApiError.badRequest(error.message || 'Непредвиденная ошибка'));
         }
@@ -33,11 +49,15 @@ class TypeController {
     async removeById(req, res, next) {
         try {
             const { id } = req.params;
-            const type = await Type.destroy({
+            const deletedType = await Type.destroy({
                 where: { id }
             });
 
-            return res.json(type);
+            if (deletedType) {
+                next(ApiError.noContent('Type deleted'));
+            }
+
+            throw new Error('Type not found');
         } catch (error) {
             next(ApiError.badRequest(error.message || 'Непредвиденная ошибка'));
         }
