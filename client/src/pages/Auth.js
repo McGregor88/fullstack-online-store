@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Container, Card, Form, Button } from 'react-bootstrap';
 
-import './Auth.css';
+import './Auth.scss';
 import { LOGIN_ROUTE, REGISTRATION_ROUTE } from '../utils/consts';
 
 const Auth = () => {
