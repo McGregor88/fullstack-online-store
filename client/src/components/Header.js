@@ -4,11 +4,16 @@ import { observer } from 'mobx-react-lite';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 
 import { Context } from '..';
-import { ADMIN_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from '../utils/consts';
+import { ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts';
 
 const Header = observer(() => {
     const { user } = useContext(Context);
     const history = useHistory();
+
+    const logOut = () => {
+        user.setUser({});
+        user.setIsAuth(false);
+    };
 
     return (
         <header className="header">
@@ -27,7 +32,7 @@ const Header = observer(() => {
                                 <Button 
                                     variant="outline-light"
                                     className="ml-2"
-                                    onClick={() => history.push(LOGIN_ROUTE)}
+                                    onClick={logOut}
                                 >
                                     Выйти
                                 </Button>
