@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { Navbar, Nav, Container, Button } from 'react-bootstrap';
 
 import { Context } from '..';
-import { ADMIN_ROUTE, LOGIN_ROUTE, SHOP_ROUTE } from '../utils/consts';
+import { ADMIN_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE, SHOP_ROUTE } from '../utils/consts';
 
 const Header = observer(() => {
     const { user } = useContext(Context);
@@ -35,7 +35,7 @@ const Header = observer(() => {
                             :
                             <Button 
                                 variant="outline-light"
-                                onClick={() => user.setIsAuth(true)}
+                                onClick={() => history.push(LOGIN_ROUTE)}
                             >
                                 Авторизация
                             </Button>
