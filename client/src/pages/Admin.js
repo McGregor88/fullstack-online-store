@@ -14,14 +14,14 @@ const Admin = () => {
         <Container className="d-flex flex-column pt-2">
             <Button
                 variant="primary"
-                className="mb-2"
+                className="mb-3"
                 onClick={() => setTypeVisible(true)}
             >
                 Добавить тип
             </Button>
             <Button
                 variant="primary"
-                className="mb-2"
+                className="mb-3"
                 onClick={() => setBrandVisible(true)}
             >
                 Добавить бренд
