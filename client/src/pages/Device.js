@@ -1,43 +1,18 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Card, Image, Button } from 'react-bootstrap';
 import { Star } from 'react-bootstrap-icons';
 
 import './Device.scss';
+import { fetchDevice } from '../http/deviceAPI';
 
 const Device = () => {
-    const device = {
-        "id": 1,
-        "name": "12 pro",
-        "price": 100000,
-        "rating": 0,
-        "img": "http://localhost:5000/b6c645e7-8ed8-4c11-bc8f-e5e50b066298.jpg",
-        "createdAt": "2021-06-08T22:09:12.956Z",
-        "updatedAt": "2021-06-08T22:09:12.956Z",
-        "typeId": 2,
-        "brandId": 2
-    };
+    const [ device, setDevice ] = useState({ info: [] });
+    const { id } = useParams();
 
-    const description = [{
-        id: 1,
-        title: 'Оперативная память',
-        description: '5 Гб'
-    }, {
-        id: 2,
-        title: 'Камера',
-        description: '12 Мп'
-    }, {
-        id: 3,
-        title: 'Процессор',
-        description: 'Pentium 3'
-    }, {
-        id: 4,
-        title: 'Кол-во ядер',
-        description: '2'
-    }, {
-        id: 5,
-        title: 'Аккумулятор',
-        description: '4000'
-    }];
+    useEffect(() => {
+        fetchDevice(id).then(response => setDevice(response));
+    }, [id]);
 
     return (
         <Container className="mt-3 device-view">
@@ -46,7 +21,7 @@ const Device = () => {
                     <Image
                         width={300}
                         height={300}
-                        src={device.img} 
+                        src={process.env.REACT_APP_API_URL + device.img} 
                     />
                 </Col>
                 <Col md={4}>
@@ -74,7 +49,7 @@ const Device = () => {
             </Row>
             <Row className="d-flex flex-column m-3">
                 <h3 className="mb-4">Характеристики</h3>
-                {description.map((item, index) =>
+                {device.info.map((item, index) =>
                     <Row 
                         key={item.id}
                         style={{

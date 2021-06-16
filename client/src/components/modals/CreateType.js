@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 
+import { createType } from '../../http/deviceAPI';
+
 const CreateType = ({ show, onHide }) => {
+
+    const [ value, setValue ] = useState('');
+
+    const addType = () => {
+        createType({ name: value }).then(response => {
+            setValue('');
+            onHide();
+        });
+    };
+
     return (
         <Modal
             centered
@@ -18,6 +30,8 @@ const CreateType = ({ show, onHide }) => {
                 <Form>
                     <Form.Control 
                         placeholder="Введите название типа"
+                        value={value}
+                        onChange={e => setValue(e.target.value)}
                     />
                 </Form>
             </Modal.Body>
@@ -30,7 +44,7 @@ const CreateType = ({ show, onHide }) => {
                 </Button>
                 <Button 
                     variant="primary"
-                    onClick={onHide}
+                    onClick={addType}
                 >
                     Добавить
                 </Button>
