@@ -14,6 +14,7 @@ const Header = observer(() => {
         user.setUser({});
         user.setIsAuth(false);
         localStorage.removeItem('token');
+        history.push(SHOP_ROUTE);
     };
 
     return (
