@@ -32,6 +32,7 @@ export default class DeviceStore {
     }
 
     setSelectedBrand(brand) {
+        this.setPage(1);
         this._selectedBrand = brand;
     }
 
